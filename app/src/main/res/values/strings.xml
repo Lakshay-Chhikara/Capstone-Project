@@ -1,0 +1,21 @@
+<resources>
+	<string name="app_name">Events Guide</string>
+
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+
+	<string name="nav_settings">Settings</string>
+
+	<string name="name">John Doe</string>
+	<string name="email">john@doe.com</string>
+
+	<string name="nav_explore">Explore</string>
+	<string name="nav_watchlist">WatchList</string>
+	<string name="nav_share">Share</string>
+	<string name="nav_signout">Signout</string>
+
+	<string name="date">Date</string>
+	<string name="time">Time</string>
+	<string name="location">Location</string>
+	<string name="description">Description</string>
+</resources>

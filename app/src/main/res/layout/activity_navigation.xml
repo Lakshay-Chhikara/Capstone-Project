@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/drawer_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	android:background="@android:color/white"
+	tools:context="me.lakshay.eventsguide.NavigationActivity">
+<!-- tools:openDrawer="start" -->
+
+	<android.support.design.widget.CoordinatorLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<android.support.design.widget.AppBarLayout
+			android:id="@+id/app_bar"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/app_bar_layout_height"
+			android:background="@android:color/transparent"
+			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+			<android.support.design.widget.CollapsingToolbarLayout
+				android:id="@+id/collapsing_tool_bar"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:titleEnabled="false"
+				app:collapsedTitleTextAppearance="?attr/colorAccent"
+				app:expandedTitleTextAppearance="@android:color/transparent"
+				app:contentScrim="?attr/colorPrimary"
+				app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+				<android.support.v7.widget.RecyclerView
+					android:id="@+id/category_posters"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					app:layout_collapseMode="parallax"/>
+
+				<android.support.v7.widget.Toolbar
+					android:id="@+id/toolbar"
+					android:layout_width="match_parent"
+					android:layout_height="?attr/actionBarSize"
+					app:layout_collapseMode="parallax"
+					app:title="@string/app_name"
+					android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+				<android.support.design.widget.TabLayout
+					android:id="@+id/tab_layout"
+					android:layout_width="match_parent"
+					android:layout_height="?attr/actionBarSize"
+					android:layout_gravity="bottom"
+					app:tabTextColor="@color/colorAccent"
+					app:layout_collapseMode="pin"
+					app:layout_anchor="@id/toolbar"
+					app:layout_anchorGravity="bottom"
+					app:tabMode="scrollable"/>
+
+			</android.support.design.widget.CollapsingToolbarLayout>
+
+		</android.support.design.widget.AppBarLayout>
+
+		<!--<fragment
+			android:id="@+id/content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:name="me.lakshay.eventsguide.fragments.CategoryEventsFragmentragment"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			tools:layout="@layout/fragment_category_events"/>-->
+
+		<android.support.v4.view.ViewPager
+			android:id="@+id/view_pager"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@android:color/white"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+	</android.support.design.widget.CoordinatorLayout>
+
+	<android.support.design.widget.NavigationView
+		android:id="@+id/nav_view"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:fitsSystemWindows="true"
+		android:background="@color/colorPrimaryDark"
+		app:itemTextColor="@android:color/white"
+		app:headerLayout="@layout/nav_header_explore"
+		app:menu="@menu/activity_explore_drawer"/>
+
+</android.support.v4.widget.DrawerLayout>

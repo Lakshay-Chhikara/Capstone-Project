@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "409216750519",
+    "firebase_url": "https://events-guide.firebaseio.com",
+    "project_id": "events-guide",
+    "storage_bucket": "events-guide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409216750519:android:66fb28f93931a3b4",
+        "android_client_info": {
+          "package_name": "me.lakshay.eventsguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "409216750519-chh1fbrp93dlvv1u8scolmqmq98nf7e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.lakshay.eventsguide",
+            "certificate_hash": "D61E25F8C27984B9DF9D10E7448C649C3525FF7D"
+          }
+        },
+        {
+          "client_id": "409216750519-tu9e61do332sivnnc1k7jtbvref6er9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAulU85YrrrNlQcygvX97IKiDnD-SlUJIU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409216750519-tu9e61do332sivnnc1k7jtbvref6er9q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
