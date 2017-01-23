@@ -1,6 +1,5 @@
 package me.lakshay.eventsguide;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -215,14 +214,7 @@ public class NavigationActivity extends AppCompatActivity
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
-		if (id == R.id.nav_explore) {
-
-		} else if (id == R.id.nav_watchlist) {
-
-		} else if (id == R.id.nav_share) {
-			Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		} else if (id == R.id.nav_signout) {
+		if (id == R.id.nav_signout) {
 			mFirebaseAuth.signOut();
 			mFirebaseAuth.signInAnonymously();
 		}
@@ -234,12 +226,10 @@ public class NavigationActivity extends AppCompatActivity
 
 	@Override
 	public void onCategorySelected(Category category) {
-
 	}
 
 	@Override
 	public void onEventSelected(Event event) {
-
 	}
 
 	public static class CategoryPosterHolder extends RecyclerView.ViewHolder {
