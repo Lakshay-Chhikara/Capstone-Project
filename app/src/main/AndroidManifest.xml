@@ -24,8 +24,17 @@
 		<activity
 			android:name=".EventDetailsActivity"
 			android:theme="@style/AppTheme.NoActionBar"/>
-		<activity android:name=".WatchList">
-		</activity>
+		<activity android:name=".WatchList"/>
+		<service android:name="widget.CategoriesWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
+		<receiver android:name="widget.CategoriesWidgetProvider">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+			</intent-filter>
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/categories_app_widget_info"/>
+		</receiver>
 	</application>
 
 </manifest>
