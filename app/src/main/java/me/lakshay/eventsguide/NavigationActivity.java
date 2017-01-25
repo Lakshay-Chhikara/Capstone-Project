@@ -175,6 +175,8 @@ public class NavigationActivity extends AppCompatActivity
 		startService(
 				new Intent(NavigationActivity.this,
 						CategoriesIntentService.class));
+
+		getSupportLoaderManager().initLoader(1, null, NavigationActivity.this);
 	}
 
 	private BroadcastReceiver mBroadcastReceiver =
