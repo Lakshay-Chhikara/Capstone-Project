@@ -25,6 +25,8 @@
 			android:name=".EventDetailsActivity"
 			android:theme="@style/AppTheme.NoActionBar"/>
 		<activity android:name=".WatchList"/>
+		<service android:name=".service.CategoriesIntentService"
+				 android:exported="false"/>
 		<service android:name="widget.CategoriesWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
 		<receiver android:name="widget.CategoriesWidgetProvider">

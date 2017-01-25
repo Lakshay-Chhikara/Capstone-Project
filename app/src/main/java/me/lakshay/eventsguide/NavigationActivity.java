@@ -1,9 +1,19 @@
 package me.lakshay.eventsguide;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +48,12 @@ import me.lakshay.eventsguide.adapters.CategoryEventsPagerAdapter;
 import me.lakshay.eventsguide.fragments.CategoryEventsFragment;
 import me.lakshay.eventsguide.model.Category;
 import me.lakshay.eventsguide.model.Event;
+import me.lakshay.eventsguide.service.CategoriesIntentService;
 
 public class NavigationActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener,
-		CategoryEventsFragment.OnItemSelectedListener {
+		CategoryEventsFragment.OnItemSelectedListener,
+		LoaderManager.LoaderCallbacks<Bitmap> {
 
 	private FirebaseAuth mFirebaseAuth;
 	private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -143,16 +158,38 @@ public class NavigationActivity extends AppCompatActivity
 			@Override
 			protected void populateViewHolder(CategoryPosterHolder viewHolder,
 					Category category, int position) {
-				categories.add(category);
+				/*categories.add(category);
 				//mCategoryPosterRecyclerAdapter.notifyDataSetChanged();
-				viewPager.getAdapter().notifyDataSetChanged();
+				viewPager.getAdapter().notifyDataSetChanged();*/
 				viewHolder.setPoster(
 						FirebaseStorage.getInstance()
 						.getReferenceFromUrl(category.getPoster()));
 			}
 		};
 		categoryPosters.setAdapter(mCategoryPosterRecyclerAdapter);
+
+		LocalBroadcastManager.getInstance(NavigationActivity.this)
+				.registerReceiver(mBroadcastReceiver,
+						new IntentFilter(CategoriesIntentService.ACTION));
+
+		startService(
+				new Intent(NavigationActivity.this,
+						CategoriesIntentService.class));
 	}
+
+	private BroadcastReceiver mBroadcastReceiver =
+			new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					categories.clear();
+					List<Category> categories1 = intent.getParcelableArrayListExtra(
+							CategoriesIntentService.KEY_CATEGORIES);
+					categories.addAll(categories1);
+					((ViewPager) findViewById(R.id.view_pager))
+							.getAdapter()
+							.notifyDataSetChanged();
+				}
+			};
 
 	private void onSignedInInitialize(FirebaseUser user) {
 		Glide.with(NavigationActivity.this)
@@ -198,6 +235,11 @@ public class NavigationActivity extends AppCompatActivity
 	protected void onDestroy() {
 		super.onDestroy();
 		mCategoryPosterRecyclerAdapter.cleanup();
+
+		if (mBroadcastReceiver != null) {
+			LocalBroadcastManager.getInstance(NavigationActivity.this)
+					.unregisterReceiver(mBroadcastReceiver);
+		}
 	}
 
 	@Override
@@ -225,11 +267,44 @@ public class NavigationActivity extends AppCompatActivity
 	}
 
 	@Override
+	public Loader<Bitmap> onCreateLoader(int id, Bundle args) {
+		return new AsyncTaskLoader<Bitmap>(NavigationActivity.this) {
+			@Override
+			public Bitmap loadInBackground() {
+				Bitmap bitmap = null;
+				FirebaseUser user = mFirebaseAuth.getCurrentUser();
+				if (user != null && !user.isAnonymous()) {
+					String url = user.getPhotoUrl().toString();
+					try {
+						InputStream is = (InputStream) new URL(url).openConnection().getInputStream();
+						bitmap = BitmapFactory.decodeStream(is);
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				return bitmap;
+			}
+		};
+	}
+
+	@Override
 	public void onCategorySelected(Category category) {
 	}
 
 	@Override
 	public void onEventSelected(Event event) {
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
+		if (data != null) {
+			profilePic.setImageBitmap(data);
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader loader) {
 	}
 
 	public static class CategoryPosterHolder extends RecyclerView.ViewHolder {
